@@ -12,9 +12,8 @@ import {
   uniq,
   forEach 
 } from 'lodash';
-import * as WarframeWorldState from 'warframe-worldstate-data';
 import * as WarframeWorldStateParser from 'warframe-worldstate-parser';
-import { WarframeInlineImageRewardTypes, ImageConstants } from './../../lib/constants/constants';
+import { ImageConstants } from './../../lib/constants/constants';
 import { IGroupedInvasion } from './../../lib/interfaces/IGroupedInvasion';
 
 /*
@@ -125,9 +124,6 @@ export class WarframeProvider {
     const nodes = invasions.map((invasion) => {
       return invasion.node.toString().substring(invasion.node.toString().indexOf('('));
     });
-
-    // get unique list of invasion planets
-    const invasionPlanets = uniq(nodes);
 
     // create a grouped invasions object
     const groupedInvasions: any = {};

@@ -4,8 +4,6 @@ import {
   WarframeProvider
 } from '../../providers/warframe/warframe';
 import { Observable } from 'rxjs';
-import { Subscription } from 'rxjs/Subscription';
-import { isUndefined } from 'lodash';
 import { IGroupedInvasion } from '../../lib/interfaces/IGroupedInvasion';
 
 @Component({

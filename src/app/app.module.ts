@@ -7,6 +7,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { AlertTimerComponent } from '../components/alert-timer/alert-timer';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -16,7 +17,8 @@ import { WarframeProvider } from '../providers/warframe/warframe';
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    AlertTimerComponent
   ],
   imports: [
     BrowserModule,
