@@ -1,16 +1,23 @@
-import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { isUndefined } from 'lodash';
 /**
  * Generated class for the AlertTimerComponent component.
  *
  * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
  * for more info on Angular Components.
  */
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { isUndefined } from 'lodash';
+import { 
+  WarframeProvider
+} from '../../providers/warframe/warframe';
+import {
+  IAlertTime
+} from './../../lib/interfaces';
+
 @Component({
   selector: 'alert-timer',
   templateUrl: 'alert-timer.html'
 })
-export class AlertTimerComponent implements OnChanges {
+export class AlertTimerComponent implements OnInit {
 
   public minutes: number;
   public seconds: number;
@@ -20,15 +27,22 @@ export class AlertTimerComponent implements OnChanges {
 
   @Input() eta: string;
   @Output() onCountdownFinished = new EventEmitter<boolean>();
-  constructor() {
+
+  constructor(public warframeProvider: WarframeProvider) {
   }
 
-
-  public ngOnChanges(changes: SimpleChanges) {
-    if (!isUndefined(changes.eta.currentValue)) {
+  ngOnInit() {
+    console.log('Alert timer loaded!');
+    if (!isUndefined(this.eta) && this.eta !== null) {
       this.setCountdownTimer(this.eta);
     }
   }
+
+  /*public ngOnChanges(changes: SimpleChanges) {
+    if (!isUndefined(changes.eta.currentValue)) {
+      this.setCountdownTimer(this.eta);
+    }
+  }*/
 
   /**
    * initializes the count down for the alert
@@ -61,15 +75,33 @@ export class AlertTimerComponent implements OnChanges {
         }
       }
 
-      this.timer(() => {
-        this.onCountdownFinished.emit(true);
-      },
-        !isUndefined(this.mins) ? parseInt(this.mins) : 0,
-        !isUndefined(this.secs) ? parseInt(this.secs) : 0);
+      const minutes = isUndefined(this.mins) ? 0 : parseInt(this.mins);
+      const seconds = isUndefined(this.secs) ? 0 : parseInt(this.secs);
+
+      // start count down nd subscribe to broadcats
+      this.warframeProvider
+        .startAlertTimer(minutes, seconds)
+        .subscribe((alertTime: IAlertTime) => {
+          // instantiate data-bound properties
+          this.minutes = alertTime.mins;
+          this.seconds = alertTime.secs;
+
+          // check if count down is done
+          if (alertTime.isComplete) {
+            // broadcast event to parents
+            this.onCountdownFinished.emit(true);
+          }
+        })
     }
   }
 
-  private timer(callback: () => any, mins: number, secs: number) {
+  /**
+   * simple countdown timer which counts down the alert
+   * @param callback // a callback which will be invoked when timer reaches 0
+   * @param mins // minutes
+   * @param secs // seconds
+   */
+  /*private timer(callback: () => any, mins: number, secs: number) {
 
     mins = mins || 0;
     secs = secs || 60;
@@ -79,18 +111,19 @@ export class AlertTimerComponent implements OnChanges {
         clearInterval(timer);
         callback();
       }
-
-      if (secs <= 0) {
-        mins--;
-        secs = 59;
-      }
       else {
-        secs--;
+        if (secs <= 0) {
+          mins--;
+          secs = 59;
+        }
+        else {
+          secs--;
+        }
+
+        // update property values for alert markup
+        this.minutes = mins;
+        this.seconds = secs;
       }
-
-      this.minutes = mins;
-      this.seconds = secs;
-
     }, 1000);
-  }
+  }*/
 }

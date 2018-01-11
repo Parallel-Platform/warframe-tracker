@@ -1,20 +1,23 @@
 /**
  * Description: Provider class for Warframe data
  */
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
-import { 
-  isUndefined, 
+import {
+  isUndefined,
   uniq,
-  forEach 
+  forEach
 } from 'lodash';
 import * as WarframeWorldStateParser from 'warframe-worldstate-parser';
 import { ImageConstants } from './../../lib/constants/constants';
-import { IGroupedInvasion } from './../../lib/interfaces/IGroupedInvasion';
+import {
+  IGroupedInvasion,
+  IAlertTime
+} from './../../lib/interfaces';
 
 /*
   Generated class for the WarframeProvider provider.
@@ -27,6 +30,14 @@ export class WarframeProvider {
 
   private warframeSubject = new BehaviorSubject<any>({});
   private platformSubject = new BehaviorSubject<string>('pc');
+  private countdownTime = new BehaviorSubject<IAlertTime>({
+    secs: 0,
+    mins: 0,
+    hours: 0,
+    days: 0,
+    isComplete: false
+  });
+  private warfameWorker: any;
 
   private urls: any = {
     ps4: 'warframe/api/ps4',
@@ -34,9 +45,19 @@ export class WarframeProvider {
     pc: 'warframe/api/pc'
   };
 
-  constructor(public http: Http, public storage: Storage) {
+  constructor(public http: Http, public storage: Storage, public ngZone: NgZone) {
     this._getUserPlatform();
     this._init(http, storage);
+    this.warfameWorker = new Worker('./assets/workers/web-worker.js');
+
+    // register handler for service worker event
+    // this.warfameWorker.addEventListener('onmessage', this.updateAlertTime);
+
+    this.warfameWorker.onmessage = (event) => {
+      this.ngZone.run(()=> {
+        this.updateAlertTime(event.data);
+      })
+    };
   }
 
   private _getWarframeData(platform) {
@@ -46,8 +67,8 @@ export class WarframeProvider {
 
   private _getUserPlatform() {
     this.storage.get('warframe_platform').then((platform) => {
-      if(platform){ 
-        this.platformSubject.next(platform); 
+      if (platform) {
+        this.platformSubject.next(platform);
       }
     })
   }
@@ -97,7 +118,7 @@ export class WarframeProvider {
     }
 
     const slashIndex = alert.mission.reward.thumbnail.lastIndexOf('/') + 1;
-    const img =  alert.mission.reward.thumbnail.substring(slashIndex);
+    const img = alert.mission.reward.thumbnail.substring(slashIndex);
 
     switch (img) {
       case ImageConstants.warningImage:
@@ -159,7 +180,7 @@ export class WarframeProvider {
   /**
    * refreshes the world state data from warframe
    */
-  refreshWorldState() {
+  public refreshWorldState() {
     this._init(this.http, this.storage);
   }
 
@@ -170,6 +191,74 @@ export class WarframeProvider {
   public setPlatform(platform) {
     this.storage.set('warframe_platform', platform);
     this.platformSubject.next(platform);
+  }
+
+  /**
+   * 
+   * @param mins 
+   * @param secs 
+   */
+  public startAlertTimer(mins: number, secs: number): Observable<IAlertTime> {
+
+    // send a message to the web-worker to start the count down
+    // message --> { message_id: string, data: IAlertTime }
+    this.warfameWorker.postMessage(
+      JSON.stringify(
+        {
+          messageId: 'startAlertCountdown',
+          data: {
+            secs: secs,
+            mins: mins
+          }
+        }
+      )
+    );
+
+    // message --> { messageId, data: { secs, mins }}
+    /*this.warfameWorker.onmessage = (response) => {
+      const message = JSON.parse(response);
+
+      if (message.messageId === 'startAlertCountdown') {
+
+        // get curr alert time from behavior subject
+        const countdownTime = this.countdownTime.getValue();
+
+        const alertTime: IAlertTime = {
+          secs: message.data.secs,
+          mins: message.data.mins,
+          hours: countdownTime.hours,
+          days: countdownTime.days,
+          isComplete: message.complete
+        };
+
+        // broadcast new values to subscribers
+        this.countdownTime.next(alertTime);
+      }
+    };*/
+
+    // return the behavior subject as an observable
+    return this.countdownTime.asObservable();
+  }
+
+  private updateAlertTime(response) {
+    const message = JSON.parse(response);
+
+      if (message.messageId === 'startAlertCountdown') {
+
+        // get curr alert time from behavior subject
+        const countdownTime = this.countdownTime.getValue();
+
+        const alertTime: IAlertTime = {
+          secs: message.data.secs,
+          mins: message.data.mins,
+          hours: countdownTime.hours,
+          days: countdownTime.days,
+          isComplete: message.complete
+        };
+
+        // broadcast new values to subscribers
+        this.countdownTime.next(alertTime);
+      }
   }
 
 }
