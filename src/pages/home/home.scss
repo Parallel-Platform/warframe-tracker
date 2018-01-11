@@ -1,0 +1,232 @@
+/* override swiper plugin container*/
+.swiper-container{
+    overflow-y: auto !important;
+}
+
+page-home {
+    .home-page {
+        background-color: #0c0b11;
+        background-image: url("../assets/img/galaxy.jpg") !important;
+        @media screen and (min-width: 768px) {
+            font-size: 18px;
+        }
+
+        .section-header{
+            border-bottom: 1px solid #fff;
+            width: 100%;
+            text-align: left !important;
+            color: #fff !important;
+            position: fixed !important;
+            z-index: 1000 !important;
+            background-color: #0c0b11;
+            margin-top: -1px;
+
+            @media screen and (min-width: 768px) {
+                width: 96%;
+            }
+
+            .section-title{
+                text-transform: uppercase !important;
+            }
+        }
+
+        ion-slides{
+
+            ion-slide{
+                color: #fff;
+                display:block !important;
+                padding-top: 5px;
+
+                /*.section-header{
+                    border-bottom: 1px solid #fff;
+                    width: 100%;
+                    text-align: left !important;
+
+                    .section-title{
+                        text-transform: uppercase !important;
+                    }
+                }*/
+                .section-container{
+                    overflow-y: auto !important;
+                    /*height: 100vh !important;*/
+                    padding-top: 30px;
+
+                    .section-content{
+                        padding:20px 5px;
+                        max-width: 1000px !important;
+                        
+                        .section-item{
+                            background-color: transparent;
+                            border: 1px solid #565656;
+                            width:100%;
+                            border-radius:1px;
+                            padding-top: 5px;
+                            font-size: 11px;
+                            margin-bottom: 20px;
+
+                            @media screen and (min-width: 768px) {
+                                font-size: 18px;
+                            }
+
+                            .syndicate-flag{
+                                height: auto;
+                                width:100px;
+                                background-size: cover;
+                                border-radius:1px;
+                                border: 1px solid #3e3e3e;
+                                position:absolute;
+                                max-width:100px;
+                                margin-top: -8px;
+                                -webkit-box-shadow: 0px 1px 2px 0px #131313; 
+                                -moz-box-shadow:    0px 1px 2px 0px #131313;
+                                box-shadow: 0px 1px 2px 0px #131313;
+                            }
+
+                            ion-grid{
+                                padding: 0px !important;
+
+                                ion-row{
+                                    padding: 0px !important;
+
+                                    .blueprint-bg{
+                                        background-image: url("../assets/img/blueprint.png") !important;
+                                        max-height: 75px;
+                                    }
+
+                                    ion-col{
+                                        padding: 0px !important;
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: center;
+                                        align-content: center;
+                                        align-items: center;
+
+                                        .card-img{
+                                            height: auto;
+                                            background-size: cover;
+                                            border-radius:1px;
+                                            border: 1px solid #252525;
+                                        }
+
+                                        .alert-img{
+                                            max-width:70px;
+                                        }
+
+                                        .credits-img{
+                                            max-width: 100px !important;
+                                        }
+
+                                        .relic{
+                                            max-width:90px;
+                                        }
+
+                                        .no-border{
+                                            border:none;
+                                        }
+
+                                        .invasion-container{
+                                            padding:5px 10px;
+                                            height:100%;
+                                            width:100%;
+                                            min-height: 60px;
+
+                                            .invasion-meter{
+                                                height:7px;
+                                                width:100%;
+
+                                                .invasion-label{
+                                                    font-weight:600;
+                                                    color: #fff;
+                                                    text-align:left;
+                                                    margin-bottom: 5px;
+                                                }
+
+                                                .faction-a{
+                                                    float: left;
+                                                    display:inline;
+                                                    height:100%;
+                                                }
+
+                                                .faction-b{
+                                                    float: right;
+                                                    display:inline;
+                                                    height:100%;
+                                                }
+                                            }
+
+                                            .faction-labels{
+                                                width:100%;
+
+                                                .faction-label-a{
+                                                    float: left;
+                                                    display:inline;
+                                                    height:100%;
+                                                    text-align:left;
+                                                }
+
+                                                .faction-label-b{
+                                                    float: right;
+                                                    display:inline;
+                                                    height:100%;
+                                                    text-align:right;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    .card-details{
+                                        display:block !important;
+                                        text-align: left !important;
+                                        padding: 5px 10px !important;
+
+                                        .card-line{
+                                            margin-bottom: 3px;
+
+                                            .mission-lvl{
+                                                color: #cdcdcd;
+                                            }
+                                        }
+
+                                        .mission-type-faction{
+                                            text-transform: uppercase !important;
+                                        }
+
+                                        .reward-list{
+                                            display: flex !important;
+                                            flex-direction: row !important;
+                                            justify-content: flex-start !important;
+
+                                            .inline-item{
+                                                display: inline !important;
+                                                margin-right: 5px;
+
+                                                .img-inline{
+                                                    height: auto;
+                                                    max-width: 15px !important;
+                                                    vertical-align: middle;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .card-footer{
+                                    height: 20px;
+                                    border-top: 1px solid #565656;
+
+                                    @media screen and (min-width: 768px) {
+                                        height: 30px;
+                                    }
+
+                                    .time-count{
+                                        color: #cdcdcd;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

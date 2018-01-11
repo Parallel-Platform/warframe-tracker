@@ -1,0 +1,22 @@
+{
+  "name": "warframe-tracker",
+  "app_id": "",
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/warframe/api/pc",
+      "proxyUrl": "http://content.warframe.com/dynamic/worldState.php"
+    },
+    {
+      "path": "/warframe/api/ps4",
+      "proxyUrl": "http://content.ps4.warframe.com/dynamic/worldState.php"
+    },
+    {
+      "path": "/warframe/api/xbox",
+      "proxyUrl": "http://content.xb1.warframe.com/dynamic/worldState.php"
+    }
+  ],
+  "integrations": {
+    "cordova": {}
+  }
+}
