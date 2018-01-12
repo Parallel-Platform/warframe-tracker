@@ -21,7 +21,6 @@ import {
 } from './../../lib/interfaces';
 import { WarframeWorker } from './../../lib/workers/warframeWorker';
 
-const serviceInstance: any = this;
 /*
   Generated class for the WarframeProvider provider.
 
