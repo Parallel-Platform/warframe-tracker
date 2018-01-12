@@ -13,14 +13,13 @@ import {
   forEach
 } from 'lodash';
 import * as WarframeWorldStateParser from 'warframe-worldstate-parser';
-import { ImageConstants, WorkerMessageIds } from './../../lib/constants/constants';
+import { ImageConstants } from './../../lib/constants/constants';
 import {
   IGroupedInvasion,
   IAlertTime,
   IWarframeWorkerResponse
 } from './../../lib/interfaces';
 import { WarframeWorker } from './../../lib/workers/warframeWorker';
-import { AlertTimerWorker } from './../../lib/workers/alertTimerWorker';
 
 const serviceInstance: any = this;
 /*
