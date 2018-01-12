@@ -33,6 +33,7 @@
         "lodash": "^4.17.4",
         "rxjs": "5.4.0",
         "sw-toolbox": "3.6.0",
+        "typed-web-workers": "^2.1.1",
         "warframe-worldstate-data": "git://github.com/wfcd/warframe-worldstate-data.git",
         "warframe-worldstate-parser": "^2.0.0",
         "zone.js": "0.8.12"

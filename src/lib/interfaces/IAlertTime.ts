@@ -4,5 +4,5 @@ export interface IAlertTime
   mins?: number;
   hours?: number;
   days?: number;
-  isComplete: boolean
+  isComplete?: boolean
 };

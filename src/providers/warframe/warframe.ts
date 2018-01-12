@@ -6,18 +6,22 @@ import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { createWorker, ITypedWorker } from 'typed-web-workers';
 import 'rxjs/add/operator/map';
 import {
   isUndefined,
-  uniq,
   forEach
 } from 'lodash';
 import * as WarframeWorldStateParser from 'warframe-worldstate-parser';
-import { ImageConstants } from './../../lib/constants/constants';
+import { ImageConstants, WorkerMessageIds } from './../../lib/constants/constants';
 import {
   IGroupedInvasion,
-  IAlertTime
+  IAlertTime,
+  IWarframeWorkerResponse
 } from './../../lib/interfaces';
+import { WarframeWorker } from './../../lib/workers/warframeWorker';
+import { AlertTimerWorker } from './../../lib/workers/alertTimerWorker';
+
 
 /*
   Generated class for the WarframeProvider provider.
@@ -37,7 +41,8 @@ export class WarframeProvider {
     days: 0,
     isComplete: false
   });
-  private warfameWorker: any;
+
+  private typedWorker: ITypedWorker<any, any>
 
   private urls: any = {
     ps4: 'warframe/api/ps4',
@@ -48,16 +53,9 @@ export class WarframeProvider {
   constructor(public http: Http, public storage: Storage, public ngZone: NgZone) {
     this._getUserPlatform();
     this._init(http, storage);
-    this.warfameWorker = new Worker('./assets/workers/web-worker.js');
 
-    // register handler for service worker event
-    // this.warfameWorker.addEventListener('onmessage', this.updateAlertTime);
 
-    this.warfameWorker.onmessage = (event) => {
-      this.ngZone.run(()=> {
-        this.updateAlertTime(event.data);
-      })
-    };
+    this.typedWorker = createWorker(WarframeWorker.processWorkerRequest, this.updateAlertTime);
   }
 
   private _getWarframeData(platform) {
@@ -141,11 +139,6 @@ export class WarframeProvider {
       return results;
     }
 
-    // get list of invasion planets
-    const nodes = invasions.map((invasion) => {
-      return invasion.node.toString().substring(invasion.node.toString().indexOf('('));
-    });
-
     // create a grouped invasions object
     const groupedInvasions: any = {};
 
@@ -202,63 +195,33 @@ export class WarframeProvider {
 
     // send a message to the web-worker to start the count down
     // message --> { message_id: string, data: IAlertTime }
-    this.warfameWorker.postMessage(
-      JSON.stringify(
-        {
-          messageId: 'startAlertCountdown',
-          data: {
-            secs: secs,
-            mins: mins
-          }
-        }
-      )
-    );
-
-    // message --> { messageId, data: { secs, mins }}
-    /*this.warfameWorker.onmessage = (response) => {
-      const message = JSON.parse(response);
-
-      if (message.messageId === 'startAlertCountdown') {
-
-        // get curr alert time from behavior subject
-        const countdownTime = this.countdownTime.getValue();
-
-        const alertTime: IAlertTime = {
-          secs: message.data.secs,
-          mins: message.data.mins,
-          hours: countdownTime.hours,
-          days: countdownTime.days,
-          isComplete: message.complete
-        };
-
-        // broadcast new values to subscribers
-        this.countdownTime.next(alertTime);
-      }
-    };*/
+    this.typedWorker.postMessage(JSON.stringify({
+      messageId: WorkerMessageIds.startAlertCountdown,
+      workerFunction: AlertTimerWorker.startAlertCountDown,
+      data: { secs: secs, mins: mins }
+    }));
 
     // return the behavior subject as an observable
     return this.countdownTime.asObservable();
   }
 
-  private updateAlertTime(response) {
-    const message = JSON.parse(response);
+  private updateAlertTime(message: IWarframeWorkerResponse) {
+    if (message.messageId ===  WorkerMessageIds.startAlertCountdown) {
 
-      if (message.messageId === 'startAlertCountdown') {
+      // get curr alert time from behavior subject
+      const countdownTime = this.countdownTime.getValue();
 
-        // get curr alert time from behavior subject
-        const countdownTime = this.countdownTime.getValue();
+      const alertTime: IAlertTime = {
+        secs: message.data.secs,
+        mins: message.data.mins,
+        hours: countdownTime.hours,
+        days: countdownTime.days,
+        isComplete: message.complete
+      };
 
-        const alertTime: IAlertTime = {
-          secs: message.data.secs,
-          mins: message.data.mins,
-          hours: countdownTime.hours,
-          days: countdownTime.days,
-          isComplete: message.complete
-        };
-
-        // broadcast new values to subscribers
-        this.countdownTime.next(alertTime);
-      }
+      // broadcast new values to subscribers
+      this.countdownTime.next(alertTime);
+    }
   }
 
 }
