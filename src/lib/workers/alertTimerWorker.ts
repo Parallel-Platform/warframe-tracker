@@ -15,6 +15,7 @@ export class AlertTimerWorker {
                 callback(
                     {
                         messageId: WorkerMessageIds.startAlertCountdown,
+                        component: {},
                         data: { mins: mins, secs: secs, isComplete: true },
                         complete: true
                     }
@@ -34,6 +35,7 @@ export class AlertTimerWorker {
                 callback(
                     {
                         messageId: WorkerMessageIds.startAlertCountdown,
+                        component: {},
                         data: { mins: mins, secs: secs, isComplete: false },
                         complete: false
                     }

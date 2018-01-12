@@ -22,7 +22,7 @@ import {
 import { WarframeWorker } from './../../lib/workers/warframeWorker';
 import { AlertTimerWorker } from './../../lib/workers/alertTimerWorker';
 
-
+const serviceInstance: any = this;
 /*
   Generated class for the WarframeProvider provider.
 
@@ -35,6 +35,7 @@ export class WarframeProvider {
   private warframeSubject = new BehaviorSubject<any>({});
   private platformSubject = new BehaviorSubject<string>('pc');
   private countdownTime = new BehaviorSubject<IAlertTime>({
+    instanceId: '',
     secs: 0,
     mins: 0,
     hours: 0,
@@ -55,7 +56,25 @@ export class WarframeProvider {
     this._init(http, storage);
 
 
-    this.typedWorker = createWorker(WarframeWorker.processWorkerRequest, this.updateAlertTime);
+    this.typedWorker = createWorker(WarframeWorker.processWorkerRequest,
+      (message: IWarframeWorkerResponse) => {
+        this.ngZone.run(() => {
+          // get curr alert time from behavior subject
+          const countdownTime = this.countdownTime.getValue();
+
+          const alertTime: IAlertTime = {
+            instanceId: message.messageId,
+            secs: message.data.secs,
+            mins: message.data.mins,
+            hours: countdownTime.hours,
+            days: countdownTime.days,
+            isComplete: message.complete
+          };
+
+          // broadcast new values to subscribers
+          this.countdownTime.next(alertTime);
+        })
+      });
   }
 
   private _getWarframeData(platform) {
@@ -79,6 +98,7 @@ export class WarframeProvider {
         //set the behavior subject with our data
         this._getWarframeData(platform).subscribe((rawData) => {
           if (rawData) {
+            console.log(`raw data: ${JSON.parse(rawData)}`);
             const parsedData = new WarframeWorldStateParser(rawData);
             console.log(parsedData);
             this.warframeSubject.next(parsedData || {});
@@ -191,37 +211,17 @@ export class WarframeProvider {
    * @param mins 
    * @param secs 
    */
-  public startAlertTimer(mins: number, secs: number): Observable<IAlertTime> {
+  public startAlertTimer(id: string, mins: number, secs: number): Observable<IAlertTime> {
 
     // send a message to the web-worker to start the count down
     // message --> { message_id: string, data: IAlertTime }
     this.typedWorker.postMessage(JSON.stringify({
-      messageId: WorkerMessageIds.startAlertCountdown,
-      workerFunction: AlertTimerWorker.startAlertCountDown,
+      messageId: id,
       data: { secs: secs, mins: mins }
     }));
 
     // return the behavior subject as an observable
     return this.countdownTime.asObservable();
-  }
-
-  private updateAlertTime(message: IWarframeWorkerResponse) {
-    if (message.messageId ===  WorkerMessageIds.startAlertCountdown) {
-
-      // get curr alert time from behavior subject
-      const countdownTime = this.countdownTime.getValue();
-
-      const alertTime: IAlertTime = {
-        secs: message.data.secs,
-        mins: message.data.mins,
-        hours: countdownTime.hours,
-        days: countdownTime.days,
-        isComplete: message.complete
-      };
-
-      // broadcast new values to subscribers
-      this.countdownTime.next(alertTime);
-    }
   }
 
 }

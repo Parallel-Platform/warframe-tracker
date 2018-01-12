@@ -1,12 +1,19 @@
 import { IWarframeWorkerRequest } from './../../lib/interfaces';
 export class WarframeWorker {
 
+    /**
+     * This static function processes the request for warframeworkers
+     * @param request 
+     * @param callback 
+     */
     public static processWorkerRequest(request: string, callback: (n: any) => void) {
         const message = JSON.parse(request);
         
-        const startAlertCountDown = (data: any, callback: (n: any) => void) => {
-            let mins = data.secs || 0;
-            let secs = data.mins || 60;
+        // this function needs to be contained inside the web worker function because the web worker function
+        // cannot access anything outside of it's executing context
+        const startAlertCountDown = (messageId: string, data: any, context: any, callback: (n: any) => void) => {
+            let mins = data.mins || 0;
+            let secs = data.secs || 60;
     
             const timer = setInterval(() => {
                 if (mins == 0 && secs == 0) {
@@ -15,8 +22,9 @@ export class WarframeWorker {
     
                     // timer is done. post message
                     callback({
-                        messageId: 'startAlertCountdown',
+                        messageId: messageId,
                         data: { mins: mins, secs: secs, isComplete: true },
+                        component: context,
                         complete: true
                     });
                 }
@@ -32,18 +40,20 @@ export class WarframeWorker {
     
                     // send response to listeners
                     callback({
-                        messageId: 'startAlertCountdown',
+                        messageId: messageId,
                         data: { mins: mins, secs: secs, isComplete: false },
+                        component: context,
                         complete: false
                     });
                 }
             }, 1000);
         }
 
-        switch (message.messageId) {
-            case 'startAlertCountdown':
-                startAlertCountDown(message.data, callback);
-                break;
-        }
+        // call the actual function (internal function above) to calculate count down
+        startAlertCountDown(
+            message.messageId,
+            message.data, 
+            message.component, 
+            callback);
     }
 }

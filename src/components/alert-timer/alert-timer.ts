@@ -6,7 +6,7 @@
  */
 import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { isUndefined } from 'lodash';
-import { 
+import {
   WarframeProvider
 } from '../../providers/warframe/warframe';
 import {
@@ -23,12 +23,15 @@ export class AlertTimerComponent implements OnInit {
   public seconds: number;
   private mins: string;
   private secs: string;
+  private instanceId: string;
 
 
   @Input() eta: string;
   @Output() onCountdownFinished = new EventEmitter<boolean>();
 
   constructor(public warframeProvider: WarframeProvider) {
+    // generate random string for this component's instanceId
+    this.instanceId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 
   ngOnInit() {
@@ -37,12 +40,6 @@ export class AlertTimerComponent implements OnInit {
       this.setCountdownTimer(this.eta);
     }
   }
-
-  /*public ngOnChanges(changes: SimpleChanges) {
-    if (!isUndefined(changes.eta.currentValue)) {
-      this.setCountdownTimer(this.eta);
-    }
-  }*/
 
   /**
    * initializes the count down for the alert
@@ -80,50 +77,21 @@ export class AlertTimerComponent implements OnInit {
 
       // start count down nd subscribe to broadcats
       this.warframeProvider
-        .startAlertTimer(minutes, seconds)
+        .startAlertTimer(this.instanceId, minutes, seconds)
         .subscribe((alertTime: IAlertTime) => {
-          // instantiate data-bound properties
-          this.minutes = alertTime.mins;
-          this.seconds = alertTime.secs;
 
-          // check if count down is done
-          if (alertTime.isComplete) {
-            // broadcast event to parents
-            this.onCountdownFinished.emit(true);
+          if (alertTime.instanceId === this.instanceId) {
+            // instantiate data-bound properties
+            this.minutes = alertTime.mins;
+            this.seconds = alertTime.secs;
+
+            // check if count down is done
+            if (alertTime.isComplete) {
+              // broadcast event to parents
+              this.onCountdownFinished.emit(true);
+            }
           }
         })
     }
   }
-
-  /**
-   * simple countdown timer which counts down the alert
-   * @param callback // a callback which will be invoked when timer reaches 0
-   * @param mins // minutes
-   * @param secs // seconds
-   */
-  /*private timer(callback: () => any, mins: number, secs: number) {
-
-    mins = mins || 0;
-    secs = secs || 60;
-
-    const timer = setInterval(() => {
-      if (mins == 0 && secs == 0) {
-        clearInterval(timer);
-        callback();
-      }
-      else {
-        if (secs <= 0) {
-          mins--;
-          secs = 59;
-        }
-        else {
-          secs--;
-        }
-
-        // update property values for alert markup
-        this.minutes = mins;
-        this.seconds = secs;
-      }
-    }, 1000);
-  }*/
 }
