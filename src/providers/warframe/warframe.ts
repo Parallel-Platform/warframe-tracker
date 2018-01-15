@@ -13,7 +13,7 @@ import {
   forEach
 } from 'lodash';
 import * as WarframeWorldStateParser from 'warframe-worldstate-parser';
-import { ImageConstants } from './../../lib/constants/constants';
+import { ImageConstants, WorkerMessageIds } from './../../lib/constants/constants';
 import {
   IGroupedInvasion,
   IAlertTime,
@@ -54,25 +54,7 @@ export class WarframeProvider {
     this._init(http, storage);
 
 
-    this.typedWorker = createWorker(WarframeWorker.processWorkerRequest,
-      (message: IWarframeWorkerResponse) => {
-        this.ngZone.run(() => {
-          // get curr alert time from behavior subject
-          const countdownTime = this.countdownTime.getValue();
-
-          const alertTime: IAlertTime = {
-            instanceId: message.messageId,
-            secs: message.data.secs,
-            mins: message.data.mins,
-            hours: countdownTime.hours,
-            days: countdownTime.days,
-            isComplete: message.complete
-          };
-
-          // broadcast new values to subscribers
-          this.countdownTime.next(alertTime);
-        })
-      });
+    this.typedWorker = createWorker(WarframeWorker.processWorkerRequest, this.updateAlertTime.bind(this));
   }
 
   private _getWarframeData(platform) {
@@ -179,6 +161,7 @@ export class WarframeProvider {
     forEach(groupedInvasions, (invasionData, planet) => {
       const groupedInvasion: IGroupedInvasion = {
         planet: planet.replace('(', '').replace(')', ''),
+        summary: {},
         invasions: invasionData
       };
 
@@ -220,6 +203,29 @@ export class WarframeProvider {
 
     // return the behavior subject as an observable
     return this.countdownTime.asObservable();
+  }
+
+  private getNodeInvasionSummary(nodes: Array<any>) {
+    // take the average of all opposing nodes and return them
+  }
+
+  private updateAlertTime(message: IWarframeWorkerResponse) {
+    this.ngZone.run(() => {
+      // get curr alert time from behavior subject
+      const countdownTime = this.countdownTime.getValue();
+
+      const alertTime: IAlertTime = {
+        instanceId: message.messageId,
+        secs: message.data.secs,
+        mins: message.data.mins,
+        hours: countdownTime.hours,
+        days: countdownTime.days,
+        isComplete: message.complete
+      };
+
+      // broadcast new values to subscribers
+      this.countdownTime.next(alertTime);
+    })
   }
 
 }
