@@ -1,4 +1,4 @@
-import { IWarframeWorkerRequest } from './../../lib/interfaces';
+
 export class WarframeWorker {
 
     /**

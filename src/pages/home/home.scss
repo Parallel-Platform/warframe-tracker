@@ -141,21 +141,28 @@ page-home {
                                                     margin-bottom: 5px;
                                                 }
 
-                                                .faction-a{
-                                                    float: left;
+                                                .faction-grineer{
                                                     display:inline;
                                                     height:100%;
+                                                    background-color:#BD2935;
                                                 }
 
-                                                .faction-b{
-                                                    float: right;
+                                                .faction-corpus{
                                                     display:inline;
                                                     height:100%;
+                                                    background-color:#2A5164;
+                                                }
+
+                                                .faction-infested{
+                                                    display:inline;
+                                                    height:100%;
+                                                    background-color:#3E8155;
                                                 }
                                             }
 
                                             .faction-labels{
                                                 width:100%;
+                                                text-transform: uppercase;
 
                                                 .faction-label-a{
                                                     float: left;

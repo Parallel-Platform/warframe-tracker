@@ -10,7 +10,21 @@ const WorkerMessageIds = {
   startAlertCountdown: 'startAlertCountdown'
 };
 
+const WarframeFactions = {
+  grineer: 'Grineer',
+  corpus: 'Corpus',
+  infested: 'Infested'
+}
+
+const WarframeFactionCSS = {
+  grineer: 'faction-grineer',
+  corpus: 'faction-corpus',
+  infested: 'faction-infested'
+}
+
 export { 
+  WarframeFactions,
+  WarframeFactionCSS,
   WarframeInlineImageRewardTypes, 
   ImageConstants, 
   WorkerMessageIds 

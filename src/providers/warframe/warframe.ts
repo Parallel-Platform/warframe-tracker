@@ -13,7 +13,7 @@ import {
   forEach
 } from 'lodash';
 import * as WarframeWorldStateParser from 'warframe-worldstate-parser';
-import { ImageConstants, WorkerMessageIds } from './../../lib/constants/constants';
+import { ImageConstants } from './../../lib/constants/constants';
 import {
   IGroupedInvasion,
   IAlertTime,
@@ -161,7 +161,7 @@ export class WarframeProvider {
     forEach(groupedInvasions, (invasionData, planet) => {
       const groupedInvasion: IGroupedInvasion = {
         planet: planet.replace('(', '').replace(')', ''),
-        summary: {},
+        summary: this.getNodeInvasionSummary(invasionData),
         invasions: invasionData
       };
 
@@ -207,6 +207,20 @@ export class WarframeProvider {
 
   private getNodeInvasionSummary(nodes: Array<any>) {
     // take the average of all opposing nodes and return them
+    let sum = 0;
+
+    sum = nodes.reduce((acc: number, node) => {
+      return acc + node.completion;
+    }, sum);
+
+    // determine if completed
+    return {
+      completion: sum / nodes.length,
+      completed: nodes.every((node) => node.completed === true),
+      desc: nodes.length >= 1 ? nodes[0].desc : 'N/A',
+      attackingFaction: nodes.length >= 1 ? nodes[0].attackingFaction : 'N/A',
+      defendingFaction: nodes.length >= 1 ? nodes[0].defendingFaction : 'N/A'
+    }
   }
 
   private updateAlertTime(message: IWarframeWorkerResponse) {

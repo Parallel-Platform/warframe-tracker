@@ -75,7 +75,7 @@ export class AlertTimerComponent implements OnInit {
       const minutes = isUndefined(this.mins) ? 0 : parseInt(this.mins);
       const seconds = isUndefined(this.secs) ? 0 : parseInt(this.secs);
 
-      // start count down nd subscribe to broadcats
+      // start count down and subscribe to broadcast
       this.warframeProvider
         .startAlertTimer(this.instanceId, minutes, seconds)
         .subscribe((alertTime: IAlertTime) => {

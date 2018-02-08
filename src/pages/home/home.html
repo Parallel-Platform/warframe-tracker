@@ -58,30 +58,40 @@
 							<ion-row>
 								<ion-col col-4 class="blueprint-bg">
 									<img class="card-img alert-img no-border" src="" />
-                  <img class="card-img credits-img no-border" src="{{getImageUrl(alert)}}" />
+									<img class="card-img credits-img no-border" src="{{getImageUrl(alert)}}" />
 								</ion-col>
 								<ion-col class="card-details" col-8>
 									<div class="card-line">
 										<strong>
 											{{alert.mission.node}}
-										</strong> 
+										</strong>
 										<span class="mission-lvl">
-											Level {{alert.mission.minEnemyLevel}}-{{alert.mission.maxEnemyLevel}}</span></div>
-									<div class="card-line mission-type-faction"><strong><span>{{alert.mission.type}}</span> - <span>{{alert.mission.faction}}</span></strong></div>
-									<div class="card-line"><strong>Reward:</strong></div>
+											Level {{alert.mission.minEnemyLevel}}-{{alert.mission.maxEnemyLevel}}</span>
+									</div>
+									<div class="card-line mission-type-faction">
+										<strong>
+											<span>{{alert.mission.type}}</span> -
+											<span>{{alert.mission.faction}}</span>
+										</strong>
+									</div>
+									<div class="card-line">
+										<strong>Reward:</strong>
+									</div>
 									<ion-grid>
 										<ion-row>
 											<ion-col class="reward-list">
-												<span class="inline-item"><img src="../assets/img/Credits.png" class="img-inline"/></span>
+												<span class="inline-item">
+													<img src="../assets/img/Credits.png" class="img-inline" />
+												</span>
 												<span class="inline-item">{{alert.mission.reward.credits}}</span>
 
 												<!-- load any other rewards besides credits -->
 												<span *ngIf="alert.rewardTypes.length > 0">
-														<span class="inline-item"> + </span>
-														<!--<span class="inline-item">
+													<span class="inline-item"> + </span>
+													<!--<span class="inline-item">
 															<img src="{{alert.mission.reward.thumbnail}}" class="img-inline"/>
 														</span>-->
-														<span class="inline-item">{{alert.mission.reward.itemString}}</span>
+													<span class="inline-item">{{alert.mission.reward.itemString}}</span>
 												</span>
 											</ion-col>
 										</ion-row>
@@ -107,30 +117,39 @@
 
 			<div class="section-container">
 				<div class="section-content">
-					<div class="section-item" *ngFor="let grpedInvasion of prepInvasionData((warframeData | async)?.invasions)">
-						<ion-grid>
-							<ion-row>
-								<ion-col>
-									<div class="invasion-container">
-										<div class="invasion-meter">
-											<div class="invasion-label">{{grpedInvasion.planet}}:  {{grpedInvasion.invasions[0].desc}}</div>
-											<div class="faction-a" style="background-color:#BD2935; width:44.6%;"></div>
-											<div class="faction-b" style="background-color:#2A5164; width:55.4%;"></div>
+					<ng-container *ngFor="let grpedInvasion of prepInvasionData((warframeData | async)?.invasions)">
+						<div class="section-item" *ngIf="grpedInvasion.summary.completed === false">
+							<ion-grid>
+								<ion-row>
+									<ion-col>
+										<div class="invasion-container">
+											<div class="invasion-meter">
+												<div class="invasion-label">{{grpedInvasion.planet}}: {{grpedInvasion.invasions[0].desc}}</div>
+												<div class="{{getFactionCssClass(grpedInvasion.summary.attackingFaction)}}" [ngStyle]="getInvasionFactionStyle(grpedInvasion.summary.completion, true)"></div>
+												<div class="{{getFactionCssClass(grpedInvasion.summary.defendingFaction)}}" [ngStyle]="getInvasionFactionStyle(grpedInvasion.summary.completion, false)"></div>
+											</div>
+											<br>
+											<br>
+											<div class="faction-labels">
+												<div class="faction-label-a">
+													<span>{{grpedInvasion.summary.attackingFaction}}</span>
+													<span>{{getInvasionCompletePercentage(grpedInvasion.summary.completion)}}%</span>
+												</div>
+												<div class="faction-label-b">
+													<span>55.4%</span>
+													<span>CORPUS</span>
+												</div>
+											</div>
 										</div>
-										<br><br>
-										<div class="faction-labels">
-											<div class="faction-label-a"><span>GRINNER</span> <span>44.6%</span></div>
-											<div class="faction-label-b"><span>55.4%</span> <span>CORPUS</span></div>
-										</div>
-									</div>
-								</ion-col>
-							</ion-row>
-							<ion-row>
-								<ion-col>
-								</ion-col>
-							</ion-row>
-						</ion-grid>
-					</div>
+									</ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col>
+									</ion-col>
+								</ion-row>
+							</ion-grid>
+						</div>
+					</ng-container>
 				</div>
 			</div>
 		</ion-slide>
@@ -150,9 +169,18 @@
 									<img class="syndicate-flag" src="../assets/img/new_loka.png" />
 								</ion-col>
 								<ion-col class="card-details" width-66>
-									<div class="card-line"><strong>Metis (Jupiter)</strong> <span class="mission-lvl">Level 20-25</span></div>
-									<div class="card-line"><strong>SURVIVAL MISSION</strong></div>
-									<div class="card-line"><strong>Reward: <span>3,570</span></strong></div>
+									<div class="card-line">
+										<strong>Metis (Jupiter)</strong>
+										<span class="mission-lvl">Level 20-25</span>
+									</div>
+									<div class="card-line">
+										<strong>SURVIVAL MISSION</strong>
+									</div>
+									<div class="card-line">
+										<strong>Reward:
+											<span>3,570</span>
+										</strong>
+									</div>
 								</ion-col>
 							</ion-row>
 							<ion-row class="card-footer">
@@ -181,9 +209,16 @@
 									<img class="card-img relic no-border" src="../assets/img/relics/lith.png" />
 								</ion-col>
 								<ion-col class="card-details" width-66>
-									<div class="card-line"><strong>Mantle (Earth)</strong> <span class="mission-lvl">Level 7-9</span></div>
-									<div class="card-line"><strong>CAPTURE - GRINEER</strong></div>
-									<div class="card-line"><span>LITH FISSURE</span></div>
+									<div class="card-line">
+										<strong>Mantle (Earth)</strong>
+										<span class="mission-lvl">Level 7-9</span>
+									</div>
+									<div class="card-line">
+										<strong>CAPTURE - GRINEER</strong>
+									</div>
+									<div class="card-line">
+										<span>LITH FISSURE</span>
+									</div>
 								</ion-col>
 							</ion-row>
 							<ion-row class="card-footer">
@@ -212,9 +247,18 @@
 									<img src="" />
 								</ion-col>
 								<ion-col class="card-details" width-66>
-									<div class="card-line"><strong>Odin (Mercury)</strong> <span class="mission-lvl">Level 7-9</span></div>
-									<div class="card-line"><strong>Mission: MOBILE DEFENSE</strong></div>
-									<div class="card-line"><strong>Conditions: <span>Eximus Stronghold</span></strong></div>
+									<div class="card-line">
+										<strong>Odin (Mercury)</strong>
+										<span class="mission-lvl">Level 7-9</span>
+									</div>
+									<div class="card-line">
+										<strong>Mission: MOBILE DEFENSE</strong>
+									</div>
+									<div class="card-line">
+										<strong>Conditions:
+											<span>Eximus Stronghold</span>
+										</strong>
+									</div>
 								</ion-col>
 							</ion-row>
 							<ion-row class="card-footer">
