@@ -1,0 +1,176 @@
+page-invasions {
+    .invasion-page {
+        /*background-color: #05161f;*/
+        background-color: #0c0b11;
+        background-image: url("../assets/img/galaxy.jpg") !important;
+        color: #fff;
+        display:block !important;
+        padding-top: 5px;
+
+        .scroll-content {
+            @media screen and (min-width: 768px) {
+                overflow:auto !important;
+            }
+        }
+
+        .scroll-content::-webkit-scrollbar-track
+        {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #0e0e0e;
+        }
+
+        .scroll-content::-webkit-scrollbar
+        {
+            width: 7px;
+            background-color: #F5F5F5;
+        }
+
+        .scroll-content::-webkit-scrollbar-thumb
+        {
+            background-color: #0e0e0e;
+            border: 2px solid #555555;
+        }
+
+        @media screen and (min-width: 768px) {
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .page-container {
+            @media screen and (min-width: 768px) {
+                display: flex;
+                flex-direction: column;
+                padding: 0px 20%;
+            }
+            .section-header{
+                border-bottom: 1px solid #fff;
+                width: 100%;
+                text-align: left !important;
+                color: #fff !important;
+                z-index: 1000 !important;
+                margin-top: -1px;
+    
+                @media screen and (min-width: 768px) {
+                    display:flex;
+                    flex-direction: row;
+                    align-content: center;
+                    text-align: center !important;
+                    justify-content: center;
+                    padding: 0px 20px;
+                }
+    
+                .section-title{
+                    text-transform: uppercase !important;
+                }
+            }
+    
+            .section-container{
+                overflow-y: auto !important;
+                padding-top: 30px;
+    
+                .section-content{
+                    padding:20px 5px;
+    
+                    @media screen and (min-width: 768px) {
+                        
+                    }
+        
+                    
+                    .section-item{
+                        background-color: transparent;
+                        border: 1px solid #565656;
+                        width:100%;
+                        border-radius:1px;
+                        padding-top: 5px;
+                        font-size: 11px;
+                        margin-bottom: 20px;
+    
+                        @media screen and (min-width: 768px) {
+                            font-size: 18px;
+                            margin-bottom: 40px;
+                        }
+    
+                        ion-grid{
+                            padding: 0px !important;
+    
+                            ion-row{
+                                padding: 0px;
+
+                                @media (min-width: 768px) {
+                                    padding: 15px;
+                                }
+    
+                                ion-col{
+                                    padding: 0px !important;
+                                    display: flex;
+                                    flex-direction: column;
+                                    justify-content: center;
+                                    align-content: center;
+                                    align-items: center;
+
+                                    .invasion-container{
+                                        padding:5px 10px;
+                                        height:100%;
+                                        width:100%;
+                                        min-height: 60px;
+    
+                                        .invasion-meter{
+                                            height:7px;
+                                            width:100%;
+    
+                                            .invasion-label{
+                                                font-weight:600;
+                                                color: #fff;
+                                                text-align:left;
+                                                margin-bottom: 5px;
+                                            }
+    
+                                            .faction-grineer{
+                                                display:inline;
+                                                height:100%;
+                                                background-color:#BD2935;
+                                            }
+    
+                                            .faction-corpus{
+                                                display:inline;
+                                                height:100%;
+                                                background-color:#2A5164;
+                                            }
+    
+                                            .faction-infested{
+                                                display:inline;
+                                                height:100%;
+                                                background-color:#3E8155;
+                                            }
+                                        }
+    
+                                        .faction-labels{
+                                            width:100%;
+                                            text-transform: uppercase;
+    
+                                            .faction-label-a{
+                                                float: left;
+                                                display:inline;
+                                                height:100%;
+                                                text-align:left;
+                                            }
+    
+                                            .faction-label-b{
+                                                float: right;
+                                                display:inline;
+                                                height:100%;
+                                                text-align:right;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

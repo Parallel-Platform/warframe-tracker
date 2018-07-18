@@ -5,9 +5,15 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-import { AlertTimerComponent } from '../components/alert-timer/alert-timer';
+import { TabsPage } from '../pages/tabs/tabs';
+
+
+import { AlertsPageModule } from '../pages/alerts/alerts.module';
+import { EventsPageModule } from '../pages/events/events.module';
+import { FissuresPageModule } from '../pages/fissures/fissures.module';
+import { InvasionsPageModule } from '../pages/invasions/invasions.module';
+import { SortiesPageModule } from '../pages/sorties/sorties.module';
+import { SyndicatesPageModule } from '../pages/syndicates/syndicates.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -16,21 +22,24 @@ import { WarframeProvider } from '../providers/warframe/warframe';
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    ListPage,
-    AlertTimerComponent
+    TabsPage
   ],
   imports: [
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    AlertsPageModule,
+    EventsPageModule,
+    FissuresPageModule,
+    InvasionsPageModule,
+    SortiesPageModule,
+    SyndicatesPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    ListPage
+    TabsPage
   ],
   providers: [
     StatusBar,

@@ -1,0 +1,61 @@
+<!--
+  Generated template for the InvasionsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>invasions</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="invasion-page">
+  <div class="page-container">
+    <div class="section-header">
+      <h5>INVASIONS</h5>
+    </div>
+
+    <div class="section-container">
+      <div class="section-content">
+        <ng-container *ngFor="let grpedInvasion of invasions">
+          <div class="section-item" *ngIf="grpedInvasion.summary.completed === false">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <div class="invasion-container">
+                    <div class="invasion-meter">
+                      <div class="invasion-label">{{grpedInvasion.planet}}: {{grpedInvasion.invasions[0].desc}}</div>
+                      <div class="{{getFactionCssClass(grpedInvasion.summary.attackingFaction)}}" [ngStyle]="getInvasionFactionStyle(grpedInvasion.summary.completion, true)"></div>
+                      <div class="{{getFactionCssClass(grpedInvasion.summary.defendingFaction)}}" [ngStyle]="getInvasionFactionStyle(grpedInvasion.summary.completion, false)"></div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="faction-labels">
+                      <div class="faction-label-a">
+                        <span>{{grpedInvasion.summary.attackingFaction}}</span>
+                        <span>{{getInvasionCompletePercentage(grpedInvasion.summary.completion, true)}}%</span>
+                      </div>
+                      <div class="faction-label-b">
+                        <span>{{grpedInvasion.summary.defendingFaction}}</span>
+                        <span>{{getInvasionCompletePercentage(grpedInvasion.summary.completion, false)}}%</span>
+                      </div>
+                    </div>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

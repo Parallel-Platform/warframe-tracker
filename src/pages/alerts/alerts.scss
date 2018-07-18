@@ -1,0 +1,271 @@
+page-alerts {
+    .alerts-page {
+        background-color: #0c0b11;
+        background-image: url("../assets/img/galaxy.jpg") !important;
+        color: #fff;
+        display:block !important;
+        padding-top: 5px;
+
+        @media screen and (min-width: 768px) {
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .scroll-content {
+                overflow:auto !important;
+            }
+    
+            .scroll-content::-webkit-scrollbar-track
+            {
+                -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+                background-color: #0e0e0e;
+            }
+    
+            .scroll-content::-webkit-scrollbar
+            {
+                width: 7px;
+                background-color: #F5F5F5;
+            }
+    
+            .scroll-content::-webkit-scrollbar-thumb
+            {
+                background-color: #0e0e0e;
+                border: 2px solid #555555;
+            }
+        }
+
+        .page-container {
+            @media screen and (min-width: 768px) {
+                display: flex;
+                flex-direction: column;
+                padding: 0px 20%;
+            }
+            .section-header{
+                border-bottom: 1px solid #fff;
+                width: 100%;
+                text-align: left !important;
+                color: #fff !important;
+                z-index: 1000 !important;
+                margin-top: -1px;
+    
+                @media screen and (min-width: 768px) {
+                    display:flex;
+                    flex-direction: row;
+                    align-content: center;
+                    text-align: center !important;
+                    justify-content: center;
+                    padding: 0px 20px;
+                }
+    
+                .section-title{
+                    text-transform: uppercase !important;
+                }
+            }
+    
+            .section-container{
+                overflow-y: auto !important;
+                padding-top: 30px;
+    
+                .section-content{
+                    padding:20px 5px;
+    
+                    @media screen and (min-width: 768px) {
+                        
+                    }
+        
+                    
+                    .section-item{
+                        background-color: transparent;
+                        border: 1px solid #565656;
+                        width:100%;
+                        border-radius:1px;
+                        padding-top: 5px;
+                        font-size: 11px;
+                        margin-bottom: 20px;
+    
+                        @media screen and (min-width: 768px) {
+                            font-size: 18px;
+                            margin-bottom: 40px;
+                        }
+    
+                        .syndicate-flag{
+                            height: auto;
+                            width:100px;
+                            background-size: cover;
+                            border-radius:1px;
+                            border: 1px solid #3e3e3e;
+                            position:absolute;
+                            max-width:100px;
+                            margin-top: -8px;
+                            -webkit-box-shadow: 0px 1px 2px 0px #131313; 
+                            -moz-box-shadow:    0px 1px 2px 0px #131313;
+                            box-shadow: 0px 1px 2px 0px #131313;
+                        }
+    
+                        ion-grid{
+                            padding: 0px !important;
+    
+                            ion-row{
+                                padding: 0px;
+
+                                @media (min-width: 768px) {
+                                    padding: 15px;
+                                }
+    
+                                .blueprint-bg{
+                                    background-image: url("../assets/img/blueprint.png") !important;
+                                    max-height: 75px;
+
+                                    @media (min-width: 768px) {
+                                        max-height: 150px;
+                                    }
+                                }
+    
+                                ion-col{
+                                    padding: 0px !important;
+                                    display: flex;
+                                    flex-direction: column;
+                                    justify-content: center;
+                                    align-content: center;
+                                    align-items: center;
+    
+                                    .alert-img{
+                                        max-width:70px;
+                                    }
+    
+                                    .credits-img{
+                                        max-width: 100px;
+                                    }
+    
+                                    .relic{
+                                        max-width:90px;
+                                    }
+
+                                    .card-img{
+                                        height: auto;
+                                        background-size: cover;
+                                        border-radius:1px;
+                                        border: 1px solid #252525;
+
+                                        @media (min-width: 768px) {
+                                            max-width: 200px;
+                                        }
+                                    }
+    
+                                    .no-border{
+                                        border:none;
+                                    }
+    
+                                    .invasion-container{
+                                        padding:5px 10px;
+                                        height:100%;
+                                        width:100%;
+                                        min-height: 60px;
+    
+                                        .invasion-meter{
+                                            height:7px;
+                                            width:100%;
+    
+                                            .invasion-label{
+                                                font-weight:600;
+                                                color: #fff;
+                                                text-align:left;
+                                                margin-bottom: 5px;
+                                            }
+    
+                                            .faction-grineer{
+                                                display:inline;
+                                                height:100%;
+                                                background-color:#BD2935;
+                                            }
+    
+                                            .faction-corpus{
+                                                display:inline;
+                                                height:100%;
+                                                background-color:#2A5164;
+                                            }
+    
+                                            .faction-infested{
+                                                display:inline;
+                                                height:100%;
+                                                background-color:#3E8155;
+                                            }
+                                        }
+    
+                                        .faction-labels{
+                                            width:100%;
+                                            text-transform: uppercase;
+    
+                                            .faction-label-a{
+                                                float: left;
+                                                display:inline;
+                                                height:100%;
+                                                text-align:left;
+                                            }
+    
+                                            .faction-label-b{
+                                                float: right;
+                                                display:inline;
+                                                height:100%;
+                                                text-align:right;
+                                            }
+                                        }
+                                    }
+                                }
+    
+                                .card-details{
+                                    display:block !important;
+                                    text-align: left !important;
+                                    padding: 5px 10px !important;
+    
+                                    .card-line{
+                                        margin-bottom: 3px;
+    
+                                        .mission-lvl{
+                                            color: #cdcdcd;
+                                        }
+                                    }
+    
+                                    .mission-type-faction{
+                                        text-transform: uppercase !important;
+                                    }
+    
+                                    .reward-list{
+                                        display: flex !important;
+                                        flex-direction: row !important;
+                                        justify-content: flex-start !important;
+    
+                                        .inline-item{
+                                            display: inline !important;
+                                            margin-right: 5px;
+    
+                                            .img-inline{
+                                                height: auto;
+                                                max-width: 15px !important;
+                                                vertical-align: middle;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+    
+                            .card-footer{
+                                height: 20px;
+                                border-top: 1px solid #565656;
+    
+                                @media screen and (min-width: 768px) {
+                                    height: 30px;
+                                }
+    
+                                .time-count{
+                                    color: #cdcdcd;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -142,6 +142,8 @@ export class WarframeProvider {
     // create a grouped invasions object
     const groupedInvasions: any = {};
 
+    invasions = invasions.filter(invasion => invasion.completed !== true);
+
     invasions.map((invasion) => {
       const start = invasion.node.toString().indexOf('(');
       const end = invasion.node.toString().indexOf(')');
@@ -217,10 +219,34 @@ export class WarframeProvider {
     return {
       completion: sum / nodes.length,
       completed: nodes.every((node) => node.completed === true),
-      desc: nodes.length >= 1 ? nodes[0].desc : 'N/A',
+      desc: this.getInvasionSummaryDescription(nodes),
       attackingFaction: nodes.length >= 1 ? nodes[0].attackingFaction : 'N/A',
       defendingFaction: nodes.length >= 1 ? nodes[0].defendingFaction : 'N/A'
     }
+  }
+
+  private getInvasionSummaryDescription(nodes: any[]): string {
+    let desc = '';
+    if (nodes.length > 2) {
+      // find out which description has the highest occuring frequency
+      const matches: any =  {};
+      nodes.forEach(node => {
+        if (matches[node.desc] === undefined || matches[node.desc] === null) {
+          matches[node.desc] = 1;
+        }
+        else {
+          matches[node.desc] += 1;
+        }
+      });
+
+      // get the 'desc' with the highest frequency
+      desc = Object.keys(matches).reduce((a, b) => matches[a] > matches[b] ? a : b);
+
+    }
+    else {
+      desc = nodes.length > 0 ? nodes[nodes.length - 1].desc : '';
+    }
+    return desc;
   }
 
   private updateAlertTime(message: IWarframeWorkerResponse) {
