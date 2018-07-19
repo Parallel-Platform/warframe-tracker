@@ -42,7 +42,13 @@ page-invasions {
             @media screen and (min-width: 768px) {
                 display: flex;
                 flex-direction: column;
-                padding: 0px 20%;
+                padding: 0px 5%;
+            }
+
+            @media screen and (min-width: 1080px) {
+                display: flex;
+                flex-direction: column;
+                padding: 0px 30%;
             }
             .section-header{
                 border-bottom: 1px solid #fff;

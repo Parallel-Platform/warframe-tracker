@@ -39,7 +39,13 @@ page-alerts {
             @media screen and (min-width: 768px) {
                 display: flex;
                 flex-direction: column;
-                padding: 0px 20%;
+                padding: 0px 5%;
+            }
+
+            @media screen and (min-width: 1080px) {
+                display: flex;
+                flex-direction: column;
+                padding: 0px 30%;
             }
             .section-header{
                 border-bottom: 1px solid #fff;
@@ -230,23 +236,31 @@ page-alerts {
                                     .mission-type-faction{
                                         text-transform: uppercase !important;
                                     }
-    
-                                    .reward-list{
-                                        display: flex !important;
-                                        flex-direction: row !important;
-                                        justify-content: flex-start !important;
-    
-                                        .inline-item{
-                                            display: inline !important;
-                                            margin-right: 5px;
-    
-                                            .img-inline{
-                                                height: auto;
-                                                max-width: 15px !important;
-                                                vertical-align: middle;
+
+                                    ion-grid {
+
+                                        ion-row {
+                                            padding-left: 0px;
+
+                                            .reward-list{
+                                                display: flex !important;
+                                                flex-direction: row !important;
+                                                justify-content: flex-start !important;
+            
+                                                .inline-item{
+                                                    display: inline !important;
+                                                    margin-right: 5px;
+            
+                                                    .img-inline{
+                                                        height: auto;
+                                                        max-width: 15px !important;
+                                                        vertical-align: middle;
+                                                    }
+                                                }
                                             }
                                         }
                                     }
+
                                 }
                             }
     

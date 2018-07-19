@@ -97,16 +97,10 @@
                     <ion-col class="reward-list">
                       <span class="inline-item">
                         <img src="../assets/img/Credits.png" class="img-inline" />
-                      </span>
-                      <span class="inline-item">{{alert.mission.reward.credits}}</span>
-
-                      <!-- load any other rewards besides credits -->
-                      <span *ngIf="alert.rewardTypes.length > 0">
-                        <span class="inline-item"> + </span>
-                        <!--<span class="inline-item">
-                                <img src="{{alert.mission.reward.thumbnail}}" class="img-inline"/>
-                              </span>-->
-                        <span class="inline-item">{{alert.mission.reward.itemString}}</span>
+                        {{alert.mission.reward.credits}}
+                        <span *ngIf="alert.rewardTypes.length > 0">
+                          + {{alert.mission.reward.itemString}}
+                        </span>
                       </span>
                     </ion-col>
                   </ion-row>
