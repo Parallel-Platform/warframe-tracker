@@ -12,23 +12,29 @@ export class WarframeWorker {
         // this function needs to be contained inside the web worker function because the web worker function
         // cannot access anything outside of it's executing context
         const startAlertCountDown = (messageId: string, data: any, context: any, callback: (n: any) => void) => {
+            let hrs = data.hrs || 0;
             let mins = data.mins || 0;
             let secs = data.secs || 60;
     
             const timer = setInterval(() => {
-                if (mins == 0 && secs == 0) {
+                if (hrs == 0 && mins == 0 && secs == 0) {
                     // clear interval event
                     clearInterval(timer);
     
                     // timer is done. post message
                     callback({
                         messageId: messageId,
-                        data: { mins: mins, secs: secs, isComplete: true },
+                        data: { mins: mins, secs: secs, hrs: hrs, isComplete: true },
                         component: context,
                         complete: true
                     });
                 }
                 else {
+                    // hrs values
+                    if (mins <= 0 && secs <= 0){
+                        hrs--;
+                    }
+
                     // decrement mins & secs values
                     if (secs <= 0) {
                         mins--;
@@ -41,7 +47,7 @@ export class WarframeWorker {
                     // send response to listeners
                     callback({
                         messageId: messageId,
-                        data: { mins: mins, secs: secs, isComplete: false },
+                        data: { mins: mins, secs: secs, hrs: hrs, isComplete: false },
                         component: context,
                         complete: false
                     });

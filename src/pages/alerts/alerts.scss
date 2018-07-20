@@ -45,7 +45,7 @@ page-alerts {
             @media screen and (min-width: 1080px) {
                 display: flex;
                 flex-direction: column;
-                padding: 0px 30%;
+                padding: 0px 25%;
             }
             .section-header{
                 border-bottom: 1px solid #fff;
@@ -153,9 +153,10 @@ page-alerts {
                                         background-size: cover;
                                         border-radius:1px;
                                         border: 1px solid #252525;
+                                        max-width: 60px;
 
                                         @media (min-width: 768px) {
-                                            max-width: 200px;
+                                            max-width: 140px;
                                         }
                                     }
     

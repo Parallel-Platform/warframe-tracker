@@ -4,7 +4,6 @@ import {
   WarframeProvider
 } from '../../providers/warframe/warframe';
 import { Observable } from 'rxjs';
-import { IGroupedInvasion } from '../../lib/interfaces/IGroupedInvasion';
 /*import { WarframeFactions, WarframeFactionCSS } from './../../lib/constants/constants';
 import { GeneralUtils } from './../../lib/utils/general';*/
 

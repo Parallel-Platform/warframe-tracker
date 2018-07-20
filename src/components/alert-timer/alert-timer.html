@@ -1,2 +1,6 @@
 <!-- Generated template for the AlertTimerComponent component -->
-<span class="time-count">{{minutes}}m {{seconds}}s</span>
+<span class="time-count">
+    <span *ngIf="hours > 0">{{hours}}h </span>
+    <span *ngIf="minutes > -1">{{minutes}}m </span>
+    <span *ngIf="seconds > -1">{{seconds}}s</span>
+</span>

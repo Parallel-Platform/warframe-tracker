@@ -1,3 +1,27 @@
+@mixin syndicate-bg {
+    border-left: 33px solid transparent;
+    width: 94px;
+    transform: rotate(-90deg);
+    margin-top: -3px;
+    padding-left: 46px;
+}
+
+@mixin syndicate-bg-medium {
+    border-left: 55px solid transparent;
+    width: 100px;
+    transform: rotate(-90deg);
+    margin-top: -3px;
+    padding-left: 136px;
+}
+
+@mixin syndicate-bg-large {
+    border-left: 55px solid transparent;
+    width: 100px;
+    transform: rotate(-90deg);
+    margin-top: -3px;
+    padding-left: 136px;
+}
+
 page-syndicates {
     .syndicates-page {
         background-color: #0c0b11;
@@ -120,21 +144,100 @@ page-syndicates {
                                 }
     
                                 .syndicate-img-holder {
-                                    .syndicate-bg{
-                                        border-top: 72px solid red;
-                                        border-left: 33px solid transparent;
-                                        width: 94px;
-                                        transform: rotate(-90deg);
-                                        margin-top: -3px;
-                                        padding-left: 46px;
+
+                                    .syndicate-arbiters {
+                                        $color: #374045;
+                                        border-top: 72px solid $color;
+                                        @include syndicate-bg;
 
                                         @media (min-width: 768px) {
-                                            border-top: 150px solid red;
-                                            border-left: 55px solid transparent;
-                                            width: 100px;
-                                            transform: rotate(-90deg);
-                                            margin-top: -3px;
-                                            padding-left: 136px;
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-medium;
+                                        }
+
+                                        @media (min-width: 1080px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-large;
+                                        }
+                                    }
+
+                                    .syndicate-suda {
+                                        $color: #3D375D;
+                                        border-top: 72px solid $color;
+                                        @include syndicate-bg;
+
+                                        @media (min-width: 768px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-medium;
+                                        }
+
+                                        @media (min-width: 1080px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-large;
+                                        }
+                                    }
+
+                                    .syndicate-loka {
+                                        $color: #2A3C2E;
+                                        border-top: 72px solid $color;
+                                        @include syndicate-bg;
+
+                                        @media (min-width: 768px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-medium;
+                                        }
+
+                                        @media (min-width: 1080px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-large;
+                                        }
+                                    }
+
+                                    .syndicate-veil {
+                                        $color: #3D1839;
+                                        border-top: 72px solid $color;
+                                        @include syndicate-bg;
+
+                                        @media (min-width: 768px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-medium;
+                                        }
+
+                                        @media (min-width: 1080px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-large;
+                                        }
+                                    }
+
+                                    .syndicate-maridian {
+                                        $color: #2C3F46;
+                                        border-top: 72px solid $color;
+                                        @include syndicate-bg;
+
+                                        @media (min-width: 768px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-medium;
+                                        }
+
+                                        @media (min-width: 1080px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-large;
+                                        }
+                                    }
+
+                                    .syndicate-perrin {
+                                        $color: #3D4963;
+                                        border-top: 72px solid $color;
+                                        @include syndicate-bg;
+
+                                        @media (min-width: 768px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-medium;
+                                        }
+
+                                        @media (min-width: 1080px) {
+                                            border-top: 150px solid $color;
+                                            @include syndicate-bg-large;
                                         }
                                     }
                                 }
@@ -164,9 +267,10 @@ page-syndicates {
                                         background-size: cover;
                                         border-radius:1px;
                                         border: 1px solid #252525;
+                                        max-width: 60px;
 
                                         @media (min-width: 768px) {
-                                            max-width: 200px;
+                                            max-width: 140px;
                                         }
                                     }
     

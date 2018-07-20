@@ -19,8 +19,11 @@ import {
 })
 export class AlertTimerComponent implements OnInit {
 
-  public minutes: number;
-  public seconds: number;
+  public hours: number = -1;
+  public minutes: number = -1;
+  public seconds: number = -1;
+
+  private hrs: string;
   private mins: string;
   private secs: string;
   private instanceId: string;
@@ -53,17 +56,34 @@ export class AlertTimerComponent implements OnInit {
       const etaParsed: Array<string> = eta.split(' ');
 
       if (etaParsed !== null && etaParsed.length >= 1) {
+        this.hrs = undefined;
         this.mins = undefined;
         this.secs = undefined;
 
         if (etaParsed.length >= 2) {
-          this.mins =
-            etaParsed[0] !== null && !isUndefined(etaParsed[0]) ?
-              etaParsed[0].substring(0, (etaParsed[0].length - 1)) : this.mins;
 
-          this.secs =
-            etaParsed[1] !== null && !isUndefined(etaParsed[1]) ?
-              etaParsed[1].substring(0, (etaParsed[1].length - 1)) : this.secs;
+          if (etaParsed.length >= 3) {
+            this.hrs =
+              etaParsed[0] !== null && !isUndefined(etaParsed[0]) ?
+                etaParsed[0].substring(0, (etaParsed[0].length - 1)) : this.hrs;
+
+            this.mins =
+              etaParsed[1] !== null && !isUndefined(etaParsed[1]) ?
+                etaParsed[1].substring(0, (etaParsed[1].length - 1)) : this.mins;
+
+            this.secs =
+              etaParsed[2] !== null && !isUndefined(etaParsed[2]) ?
+                etaParsed[2].substring(0, (etaParsed[2].length - 1)) : this.secs;
+          }
+          else {
+            this.mins =
+              etaParsed[0] !== null && !isUndefined(etaParsed[0]) ?
+                etaParsed[0].substring(0, (etaParsed[0].length - 1)) : this.mins;
+
+            this.secs =
+              etaParsed[1] !== null && !isUndefined(etaParsed[1]) ?
+                etaParsed[1].substring(0, (etaParsed[1].length - 1)) : this.secs;
+          }
         }
         else {
           this.secs =
@@ -72,16 +92,18 @@ export class AlertTimerComponent implements OnInit {
         }
       }
 
+      const hours = isUndefined(this.hrs) ? 0 : parseInt(this.hrs);
       const minutes = isUndefined(this.mins) ? 0 : parseInt(this.mins);
       const seconds = isUndefined(this.secs) ? 0 : parseInt(this.secs);
 
       // start count down and subscribe to broadcast
       this.warframeProvider
-        .startAlertTimer(this.instanceId, minutes, seconds)
+        .startAlertTimer(this.instanceId, hours, minutes, seconds)
         .subscribe((alertTime: IAlertTime) => {
 
           if (alertTime.instanceId === this.instanceId) {
             // instantiate data-bound properties
+            this.hours = alertTime.hours;
             this.minutes = alertTime.mins;
             this.seconds = alertTime.secs;
 

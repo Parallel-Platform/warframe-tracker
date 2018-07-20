@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { AlertsPage } from './alerts';
-import { AlertTimerComponent } from '../../components/alert-timer/alert-timer';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   declarations: [
-    AlertsPage,
-    AlertTimerComponent
+    AlertsPage
   ],
   imports: [
     IonicPageModule.forChild(AlertsPage),
+    ComponentsModule
   ],
 })
 export class AlertsPageModule {}

@@ -20,6 +20,7 @@ import {
   IWarframeWorkerResponse
 } from './../../lib/interfaces';
 import { WarframeWorker } from './../../lib/workers/warframeWorker';
+import { SYNDICATE_IMAGES } from './../../lib/utils/constants';
 
 /*
   Generated class for the WarframeProvider provider.
@@ -128,6 +129,14 @@ export class WarframeProvider {
   }
 
   /**
+   * gets image url for syndicate faction
+   * @param syndicate 
+   */
+  public loadSyndicateImageUrl(syndicate: string): string {
+    return SYNDICATE_IMAGES.find(img => img.name === syndicate).url;
+  }
+
+  /**
    * parse the list of invasions - grouping them by planet (node)
    * @param invasions 
    */
@@ -173,6 +182,10 @@ export class WarframeProvider {
     return results;
   }
 
+  public parseSyndicateData(syndicateMissions: any[]) {
+    
+  }
+
   /**
    * refreshes the world state data from warframe
    */
@@ -194,13 +207,13 @@ export class WarframeProvider {
    * @param mins 
    * @param secs 
    */
-  public startAlertTimer(id: string, mins: number, secs: number): Observable<IAlertTime> {
+  public startAlertTimer(id: string, hrs: number, mins: number, secs: number): Observable<IAlertTime> {
 
     // send a message to the web-worker to start the count down
     // message --> { message_id: string, data: IAlertTime }
     this.typedWorker.postMessage(JSON.stringify({
       messageId: id,
-      data: { secs: secs, mins: mins }
+      data: { secs: secs, mins: mins, hrs: hrs }
     }));
 
     // return the behavior subject as an observable
@@ -258,7 +271,7 @@ export class WarframeProvider {
         instanceId: message.messageId,
         secs: message.data.secs,
         mins: message.data.mins,
-        hours: countdownTime.hours,
+        hours: message.data.hrs,
         days: countdownTime.days,
         isComplete: message.complete
       };
