@@ -2,7 +2,7 @@
     border-left: 33px solid transparent;
     width: 94px;
     transform: rotate(-90deg);
-    margin-top: -3px;
+    margin-top: 3px;
     padding-left: 46px;
 }
 
@@ -20,6 +20,23 @@
     transform: rotate(-90deg);
     margin-top: -3px;
     padding-left: 136px;
+}
+
+@mixin syndicate-image {
+    
+    max-width: 100%;
+    border: 0;
+    position: absolute;
+    left: -1px;
+    top: -61px;
+    transform: rotate(90deg);
+    height: 50px;
+
+    @media screen and (min-width: 768px) {
+        left: 5px;
+        top: -127px;
+        height: 110px;
+    }
 }
 
 page-syndicates {
@@ -69,7 +86,7 @@ page-syndicates {
             @media screen and (min-width: 1080px) {
                 display: flex;
                 flex-direction: column;
-                padding: 0px 30%;
+                padding: 0px 25%;
             }
             .section-header{
                 border-bottom: 1px solid #fff;
@@ -159,6 +176,10 @@ page-syndicates {
                                             border-top: 150px solid $color;
                                             @include syndicate-bg-large;
                                         }
+
+                                        img {
+                                            @include syndicate-image;
+                                        }
                                     }
 
                                     .syndicate-suda {
@@ -174,6 +195,10 @@ page-syndicates {
                                         @media (min-width: 1080px) {
                                             border-top: 150px solid $color;
                                             @include syndicate-bg-large;
+                                        }
+
+                                        img {
+                                            @include syndicate-image;
                                         }
                                     }
 
@@ -191,6 +216,10 @@ page-syndicates {
                                             border-top: 150px solid $color;
                                             @include syndicate-bg-large;
                                         }
+
+                                        img {
+                                            @include syndicate-image;
+                                        }
                                     }
 
                                     .syndicate-veil {
@@ -206,6 +235,10 @@ page-syndicates {
                                         @media (min-width: 1080px) {
                                             border-top: 150px solid $color;
                                             @include syndicate-bg-large;
+                                        }
+
+                                        img {
+                                            @include syndicate-image;
                                         }
                                     }
 
@@ -223,6 +256,10 @@ page-syndicates {
                                             border-top: 150px solid $color;
                                             @include syndicate-bg-large;
                                         }
+
+                                        img {
+                                            @include syndicate-image;
+                                        }
                                     }
 
                                     .syndicate-perrin {
@@ -238,6 +275,10 @@ page-syndicates {
                                         @media (min-width: 1080px) {
                                             border-top: 150px solid $color;
                                             @include syndicate-bg-large;
+                                        }
+
+                                        img {
+                                            @include syndicate-image;
                                         }
                                     }
                                 }
